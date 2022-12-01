@@ -1,8 +1,7 @@
-from mysql.connector import DatabaseError, InterfaceError
-from mysql.connector.connection import MySQLConnection
-from mysql.connector.cursor import MySQLCursor
+from psycopg2 import DatabaseError, InterfaceError
+from psycopg2.extensions import connection, cursor
 
-def afficher_infos(curseur: MySQLCursor):
+def afficher_infos(curseur: cursor):
     print(type(curseur))
 
     if curseur.description:
@@ -22,7 +21,7 @@ def afficher_infos(curseur: MySQLCursor):
             # le curseur n'a pas de champs description - il a exécuté un ordre SQL de mise à jour
             print(f"nombre de lignes modifiées : {curseur.rowcount}")
         
-def execute_list_of_commands(connexion: MySQLConnection, sql_commands: list,
+def execute_list_of_commands(connexion: connection, sql_commands: list,
                              suivi: bool = False, arret: bool = True, with_transaction: bool = True):
 
     # utilise la connexion ouverte connexion
