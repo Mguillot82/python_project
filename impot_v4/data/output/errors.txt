@@ -1,0 +1,5 @@
+Analyse du fichier C:\Users\matgu\Documents\10_Python\00_Cours_python\impot_v4\data\input\taxpayersdata.txt
+
+Ligne 17, not enough values to unpack (expected 4, got 2)
+Ligne 19, too many values to unpack (expected 4)
+Ligne 21, MyException[1, L'identifiant d'une entité <class 'TaxPayer.TaxPayer'> doit être un entier >= 0]

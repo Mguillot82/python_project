@@ -1,0 +1,51 @@
+Deux applications à créer pour la version 4.
+
+La 1ère :
+
+main <-> couche métier
+     <-> couche dao     <-> Fichiers
+
+Le script principal, main, instancie la couche dao et la couche métier.
+
+La couche dao a pour rôle de gérer les données stockées dans des fichiers texte et plus tard, dans une base de données.
+La couche métier a pour rôle de calculer le calcul de l'impôt.
+
+Dans l'application 1, les données sont en brut dans le main.
+
+Dans l'application 2, c'est l'utilisateur qui tapera au clavier les données des contribuables.
+Pour l'application 2, l'architecture est la suivante :
+
+
+Utilisateur <-> Couche ui <-> main <-> métier
+                                   <-> couche dao <-> fichiers
+
+La couche dao Data Acces Object s'occupe de l'accès aux données externes.
+La couche métier s'occupe des problèmes métiers, ici du calcul de l'impôt. Les données peuvent avoir 2 provenances pour
+la couche métier:
+                    Soit la couche ui pour les données fournies par l'utilisateur,
+                    Soit la couche dao pour les données persistantes.
+
+La couche ui s'occupe des interactions avec l'utilisateur.
+
+main (script principale) est le chef d'orchestre.
+
+Les entités, dans le dossier entities, ont pour rôle d'encapsuler des données et d'offrir des getters & setters pour
+vérifier la validité des données. Une même entité peut partir de la couche ui pour aller jusqu'à la couche dao et vice-versa.
+
+Classe Impot error : Des que les couches metier et dao rentreront un problème, elles lanceront cette exception.
+Classe AdminDate : Encapsule les constantes intervenant dans le calcul de l'impôt.
+Classe TaxPayer : Modélise un contribuable.
+
+InterfaceImpotsDao : Trois méthodes :
+    get_admindata : Obtient le tableau des tranches d'impôts.
+    get_taxpayers_data : Obtient les données des contribuables.
+    write_taxpayers_results : Rend les résultats persistants (fichier texte).
+
+Classe AbstractImpotsDao parent de deux classes :
+    ImpotsDaoWithAdminDataInJsonFile : cherche les données dans un jSON
+    ImpotsDaoWithAdminDataInDatabase : récupère les données dans une base de données
+
+La classe parent va gérer les données contribuables et les résultats des calculs de l'impôt de la même manière, peu
+importe d'où proviennent les données.
+
+L'interface InterfaceImpotsMetier définit une méthode Calculate_tax pour calculer l'impôt d'un unique contribuable.

@@ -1,0 +1,21 @@
+# données valides : id, marié, enfants, salaire
+1,oui,2,55555
+2,oui,2,50000
+3,oui,3,50000
+4,non,2,100000
+5,non,3,100000
+6,oui,3,100000
+7,oui,5,100000
+8,non,0,100000
+9,oui,2,30000
+10,non,0,200000
+11,oui,3,200000
+# on peut avoir des lignes vides
+
+# on crée des lignes erronées
+# pas assez de valeurs
+11,12
+# trop de valeurs
+12,oui,3,200000, x, y
+# des valeurs erronées
+x,x,x,x

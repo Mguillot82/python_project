@@ -1,0 +1,15 @@
+{
+	"limites": [9964, 27519, 73779, 156244, 0],
+	"coeffr": [0,0.14, 0.3, 0.41, 0.45],
+	"coeffn": [0, 1394.96, 5798, 13913.69, 20163.45],
+	"plafond_qf_demi_part": 1551,
+	"plafond_revenus_celibataire_pour_reduction": 21037,
+	"plafond_revenus_couple_pour_reduction": 42074,
+	"valeur_reduc_demi_part": 3797,
+	"plafond_decote_celibataire": 1196,
+	"plafond_decote_couple": 1970,
+	"plafond_impot_couple_pour_decote": 2627,
+	"plafond_impot_celibataire_pour_decote": 1595,
+	"abattement_dixpourcent_max": 12502,
+	"abattement_dixpourcent_min": 437
+}
