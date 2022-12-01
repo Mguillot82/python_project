@@ -1,0 +1,31 @@
+import config
+
+config = config.configure()
+
+from enseignant import Enseignant
+from BaseEntity import BaseEntity
+
+enseignant1 = Enseignant().fromdict({"id": 1, "nom": "lourou","prenom": "paul","age": 56})
+dict1 = enseignant1.asdict()
+
+print(type(dict1))
+print(enseignant1.__dict__)
+
+print(dict1)
+print(enseignant1.asdict(excluded_keys=["_Personne__age"]))
+Enseignant.excluded_keys = ["_Personne__prenom"]
+print(enseignant1)
+
+enseignant2 = Enseignant().fromdict({"id": 2, "nom": "abélard","prenom":"beatrice","age":57})
+print(enseignant2.asdict())
+print(enseignant2.asdict(included_keys=["_Personne__nom"]))
+
+Enseignant.excluded_keys = []
+entity1 = BaseEntity()
+enseignants = [enseignant1, enseignant2]
+setattr(entity1,"enseignants", enseignants)
+print(entity1.asdict())
+
+matiere = {"math": enseignant1, "français":enseignant2}
+setattr(entity1, "matiere", matiere)
+print(entity1.asdict())

@@ -1,0 +1,27 @@
+import config
+
+config = config.configure()
+
+from enseignant import Enseignant
+from BaseEntity import BaseEntity
+
+enseignant1 = Enseignant().fromdict({"id": 1, "nom": "lourou", "prenom": "paul", "age": 56})
+
+print(type(enseignant1.asjson()))
+print(enseignant1.asjson(excluded_keys=["_Personne__age"]))
+Enseignant.excluded_keys = ["_Personne__prenom"]
+print(enseignant1.asjson())
+
+enseignant2 = Enseignant().fromdict({"id": 2, "nom": "abelard", "prenom": "beatrice", "age":57})
+print(enseignant2.asjson())
+print(enseignant2.asjson(included_keys=["_Personne__nom"]))
+
+Enseignant.excluded_keys = []
+entity1 = BaseEntity()
+enseignants = [enseignant1, enseignant2]
+setattr(entity1, "enseignants", enseignants)
+print(entity1.asjson())
+
+matieres = {"math:":enseignant1, "français": enseignant2}
+setattr(entity1, "matiere", matieres)
+print(entity1.asjson())

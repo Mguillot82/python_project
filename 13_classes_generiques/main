@@ -1,0 +1,74 @@
+import config
+
+config = config.configure()
+
+# le syspath est configuré, on peut faire les imports
+from BaseEntity import BaseEntity
+from MyException import MyException
+
+# une classe
+class ChildEntity(BaseEntity):
+    # attributs exclus de l'état de la classe
+    excluded_keys = []
+
+    @staticmethod
+    def get_allowed_keys():
+        return ["att1","att2","att3","att4"]
+    
+    @property
+    def att1(self) -> int:
+        return self.__att1
+
+    @att1.setter
+    def att1(self, value: int):
+        if 10 >= value >= 1:
+            self.__att1 = value
+        else:
+            raise MyException(1, f"L'attribut [att1] attend une valeur dans l'intervalle [1,10] ({value})")
+
+# configuration ChildEntity
+ChildEntity.excluded_keys = []
+# instance ChildEntity
+child = ChildEntity().fromdict({"att1": 1, "att2": 2})
+# attention aux noms des propriétés
+# ce sont ces noms qui sont utilisés dans [excluded_keys] et included_keys
+print(child.__dict__)
+# propriétés non préfixées par leur classe
+print(child)
+
+# instance ChildEntity
+try:
+    child = ChildEntity().fromdict({"att1": 1, "att5": 5})
+    print(child)
+except MyException as erreur:
+    print(erreur)
+
+# instance ChildEntity
+child = ChildEntity().fromdict({"att1": 1, "att2": 2, "att3": 3, "att4": 4})
+print(child)
+
+# exclusions de certaines clés de l'état des instances
+ChildEntity.excluded_keys = ["att3"] # si soucis, remplacer les quotes
+print(child)
+
+# on exclut une clé explicitement de l'affichage
+# elle se rajoute à celles exclues globalement au niveau de la classe
+print(child.asdict(excluded_keys=["_ChildEntity__att1"]))
+print(child.asjson(excluded_keys=["att2"]))
+
+# intérêt de la classe vis à vis  du dictionnaire
+# elle peut vérifier la validité de son contenu
+try:
+    child = ChildEntity().fromdict({"att1": 20})
+except MyException as erreur:
+    print(erreur)
+
+# instance ChildEntity
+child1 = ChildEntity().fromdict({"att1": 1, "att2": 2, "att3":3, "att4": 4})
+# instance ChildEntity contenant une autre instance ChildEntity
+child2 = ChildEntity().fromdict({"att1": 10, "att2": 20, "att3": 30, "att4": child1})
+print(child2)
+
+# included_keys a priorité sur excluded_keys qui sont alors ignorées
+ChildEntity.excluded_keys = ["_ChildEntity__att1", "att2"]
+print(child.asdict(included_keys=["_ChildEntity__att1", "att3"], excluded_keys=["att3", "att4"]))

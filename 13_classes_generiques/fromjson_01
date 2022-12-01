@@ -1,0 +1,10 @@
+import config
+config.configure()
+
+from enseignant import Enseignant
+import json
+
+json1 = json.dumps({"id": 1, "nom": "lourou", "prenom": "paul", "age": 56})
+
+enseignant1 = Enseignant().fromjson(json1)
+enseignant1.show()
